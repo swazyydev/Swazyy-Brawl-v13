@@ -14,4 +14,5 @@ public:
 
 private:
     bool readBytes(uint8_t* bytes, int length);
+    bool writeBytes(uint8_t* bytes, int length);
 };

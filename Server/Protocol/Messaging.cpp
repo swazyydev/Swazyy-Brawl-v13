@@ -66,21 +66,21 @@ void Messaging::send(PiranhaMessage* message) {
     header[5] = (message->version >> 8);
     header[6] = message->version;
 
-    int sent = 0;
-    while (sent < 7) {
-        int bytesSent = ::send(_clientSocket, header + sent, 7 - sent, 0);
-        if (bytesSent <= 0) return;
-        sent += bytesSent;
-    }
+    if (!writeBytes(header, 7)) return;
 
-    sent = 0;
-    while (sent < payloadLength) {
-        int bytesSent = ::send(_clientSocket, payload + sent, payloadLength - sent, 0);
-        if (bytesSent <= 0) return;
-        sent += bytesSent;
-    }
+    if (!writeBytes(payload, payloadLength)) return;
 
     std::cout << "Sent message with type=" << message->getMessageType() << std::endl;
+}
+
+bool Messaging::writeBytes(uint8_t *bytes, int length) {
+    int sent = 0;
+    while (sent < length) {
+        int bytesSent = ::send(_clientSocket, bytes + sent, length - sent, 0);
+        if (bytesSent <= 0) return false;
+        sent += bytesSent;
+    }
+    return true;
 }
 
 bool Messaging::readBytes(uint8_t* bytes, int length) {
