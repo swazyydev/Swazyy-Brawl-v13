@@ -12,7 +12,7 @@ class MessageManager {
     public:
     MessageManager(Messaging* messaging);
 
-    void handleClientHelloMessage(LoginMessage * message);
+    void handleLoginMessage(LoginMessage * message);
 
     void handleMessage(PiranhaMessage* message);
 

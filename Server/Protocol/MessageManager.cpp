@@ -14,11 +14,11 @@ MessageManager::MessageManager(Messaging* messaging)
 void MessageManager::handleMessage(PiranhaMessage* message) {
     switch (message->getMessageType()) {
         case 10101:
-            handleClientHelloMessage(static_cast<LoginMessage*>(message));
+            handleLoginMessage(static_cast<LoginMessage*>(message));
     }
 }
 
-void MessageManager::handleClientHelloMessage(LoginMessage* message) {
+void MessageManager::handleLoginMessage(LoginMessage* message) {
     std::cout << "received loginMessage" << std::endl;
     MessageManager::sendMessage(new LoginOkMessage());
     MessageManager::sendMessage(new OwnHomeDataMessage());
